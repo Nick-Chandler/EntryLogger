@@ -1,0 +1,25 @@
+version: "3"
+networks:
+  loggernet:
+    name: loggernet
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.31.0.0/16"
+services: 
+  entryloggerserver:
+    image: entrylogger
+    depends_on:
+      - entryloggerdbserver
+    container_name: server
+    ports: 
+      - "9999:9999"
+    networks:
+      loggernet:
+        ipv4_address: 172.31.0.3
+  entryloggerdbserver:
+    image: entryloggerdb
+    container_name: db
+    networks:
+      loggernet:
+        ipv4_address: 172.31.0.2
